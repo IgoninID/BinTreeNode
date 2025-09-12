@@ -4,612 +4,597 @@
 #include <vector>
 
 /// <summary>
-/// 
+/// Перечисление для различных способов обхода бинарного дерева
 /// </summary>
 enum class PATHS { nlr, nrl, lnr, rnl, lrn, rln, iter };
 
-using enum PATHS; //
+using enum PATHS; // Использование перечисления PATHS для упрощения доступа к его значениям
 
-using namespace std; //
+using namespace std; // Использование стандартного пространства имен для упрощения кода
 
 /// <summary>
-/// 
+/// Класс узла бинарного дерева
 /// </summary>
-/// <typeparam name="T - "></typeparam>
+/// <typeparam name="T">Тип данных, хранимых в узле</typeparam>
 template <typename T>
 class BinTreeNode
 {
 public:
-	BinTreeNode* left; //
-	BinTreeNode* right; //
-	T data; //
+	BinTreeNode* left; // Указатель на левый дочерний узел
+	BinTreeNode* right; // Указатель на правый дочерний узел
+	T data; // Данные, хранимые в узле
 
 	/// <summary>
-	/// 
+	/// Конструктор по умолчанию
 	/// </summary>
 	BinTreeNode()
 	{
-		data = nullptr; //
-		left = nullptr; //
-		right = nullptr; //
+		data = nullptr; // Инициализация данных значением nullptr
+		left = nullptr; // Инициализация левого дочернего узла значением nullptr
+		right = nullptr; // Инициализация правого дочернего узла значением nullptr
 	}
 
 	/// <summary>
-	/// 
+	/// Конструктор с параметром данных
 	/// </summary>
-	/// <param name="data - "></param>
+	/// <param name="data">Значение, которое будет храниться в узле</param>
 	BinTreeNode(T data)
 	{
-		this->data = data; //
-		left = nullptr; //
-		right = nullptr; //
+		this->data = data; // Присваивание переданного значения данным узла
+		left = nullptr; // Инициализация левого дочернего узла значением nullptr
+		right = nullptr; // Инициализация правого дочернего узла значением nullptr
 	}
 };
 
 /// <summary>
-/// 
+/// Обход дерева в прямом порядке (NLR: узел, левое поддерево, правое поддерево)
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void NLR(const BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		cout << curr->data << " "; //
-		NLR(curr->left); //
-		NLR(curr->right); //
+		cout << curr->data << " "; // Вывод данных текущего узла
+		NLR(curr->left); // Рекурсивный вызов для левого поддерева
+		NLR(curr->right); // Рекурсивный вызов для правого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в прямом порядке с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void NLR(const BinTreeNode<T>* curr, vector<T>& vec)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		vec.push_back(curr->data); //
-		NLR(curr->left, vec); //
-		NLR(curr->right, vec); //
+		vec.push_back(curr->data); // Добавление данных текущего узла в вектор
+		NLR(curr->left, vec); // Рекурсивный вызов для левого поддерева
+		NLR(curr->right, vec); // Рекурсивный вызов для правого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном прямом порядке (NRL: узел, правое поддерево, левое поддерево)
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void NRL(const BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		cout << curr->data << " "; //
-		NRL(curr->right); //
-		NRL(curr->left); //
+		cout << curr->data << " "; // Вывод данных текущего узла
+		NRL(curr->right); // Рекурсивный вызов для правого поддерева
+		NRL(curr->left); // Рекурсивный вызов для левого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном прямом порядке с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void NRL(const BinTreeNode<T>* curr, vector<T>& vec)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		vec.push_back(curr->data); //
-		NRL(curr->right, vec); //
-		NRL(curr->left, vec); //
+		vec.push_back(curr->data); // Добавление данных текущего узла в вектор
+		NRL(curr->right, vec); // Рекурсивный вызов для правого поддерева
+		NRL(curr->left, vec); // Рекурсивный вызов для левого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в симметричном порядке (LNR: левое поддерево, узел, правое поддерево)
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void LNR(const BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		LNR(curr->left); //
-		cout << curr->data << " "; //
-		LNR(curr->right); //
+		LNR(curr->left); // Рекурсивный вызов для левого поддерева
+		cout << curr->data << " "; // Вывод данных текущего узла
+		LNR(curr->right); // Рекурсивный вызов для правого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в симметричном порядке с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void LNR(const BinTreeNode<T>* curr, vector<T>& vec)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		LNR(curr->left, vec); //
-		vec.push_back(curr->data); //
-		LNR(curr->right, vec); //
+		LNR(curr->left, vec); // Рекурсивный вызов для левого поддерева
+		vec.push_back(curr->data); // Добавление данных текущего узла в вектор
+		LNR(curr->right, vec); // Рекурсивный вызов для правого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном симметричном порядке (RNL: правое поддерево, узел, левое поддерево)
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void RNL(const BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		RNL(curr->right); //
-		cout << curr->data << " "; //
-		RNL(curr->left); //
+		RNL(curr->right); // Рекурсивный вызов для правого поддерева
+		cout << curr->data << " "; // Вывод данных текущего узла
+		RNL(curr->left); // Рекурсивный вызов для левого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном симметричном порядке с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void RNL(const BinTreeNode<T>* curr, vector<T>& vec)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		RNL(curr->right, vec); //
-		vec.push_back(curr->data); //
-		RNL(curr->left, vec); //
+		RNL(curr->right, vec); // Рекурсивный вызов для правого поддерева
+		vec.push_back(curr->data); // Добавление данных текущего узла в вектор
+		RNL(curr->left, vec); // Рекурсивный вызов для левого поддерева
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном порядке (LRN: левое поддерево, правое поддерево, узел)
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void LRN(const BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		LRN(curr->left); //
-		LRN(curr->right); //
-		cout << curr->data << " "; //
+		LRN(curr->left); // Рекурсивный вызов для левого поддерева
+		LRN(curr->right); // Рекурсивный вызов для правого поддерева
+		cout << curr->data << " "; // Вывод данных текущего узла
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном порядке с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void LRN(const BinTreeNode<T>* curr, vector<T>& vec)
 {
-	if (curr)
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		LRN(curr->left, vec); //
-		LRN(curr->right, vec); //
-		vec.push_back(curr->data); //
+		LRN(curr->left, vec); // Рекурсивный вызов для левого поддерева
+		LRN(curr->right, vec); // Рекурсивный вызов для правого поддерева
+		vec.push_back(curr->data); // Добавление данных текущего узла в вектор
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном порядке (RLN: правое поддерево, левое поддерево, узел)
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void RLN(const BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		RLN(curr->right); //
-		RLN(curr->left); //
-		cout << curr->data << " "; //
+		RLN(curr->right); // Рекурсивный вызов для правого поддерева
+		RLN(curr->left); // Рекурсивный вызов для левого поддерева
+		cout << curr->data << " "; // Вывод данных текущего узла
 	}
 }
 
 /// <summary>
-/// 
+/// Обход дерева в обратном порядке с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void RLN(const BinTreeNode<T>* curr, vector<T>& vec)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		RLN(curr->right, vec); //
-		RLN(curr->left, vec); //
-		vec.push_back(curr->data); //
+		RLN(curr->right, vec); // Рекурсивный вызов для правого поддерева
+		RLN(curr->left, vec); // Рекурсивный вызов для левого поддерева
+		vec.push_back(curr->data); // Добавление данных текущего узла в вектор
 	}
 }
 
 /// <summary>
-/// 
+/// Итеративный обход дерева в прямом порядке с использованием стека
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void iterPath(const BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		const BinTreeNode<T>* temp; //
-		stack<const BinTreeNode<T>* > s; //
-		s.push(curr); //
-		while (!s.empty()) //
+		const BinTreeNode<T>* temp; // Временный указатель на узел
+		stack<const BinTreeNode<T>* > s; // Стек для хранения узлов
+		s.push(curr); // Добавление текущего узла в стек
+		while (!s.empty()) // Пока стек не пуст
 		{
-			temp = s.top(); //
-			s.pop(); //
-			cout << temp->data << " "; //
-			if (temp->right) //
-				s.push(temp->right); //
-			if (temp->left) //
-				s.push(temp->left); //
+			temp = s.top(); // Получение верхнего узла из стека
+			s.pop(); // Удаление верхнего узла из стека
+			cout << temp->data << " "; // Вывод данных текущего узла
+			if (temp->right) // Если существует правое поддерево
+				s.push(temp->right); // Добавление правого узла в стек
+			if (temp->left) // Если существует левое поддерево
+				s.push(temp->left); // Добавление левого узла в стек
 		}
 	}
 }
 
 /// <summary>
-/// 
+/// Итеративный обход дерева в прямом порядке с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void iterPath(const BinTreeNode<T>* curr, vector<T>& vec)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		const BinTreeNode<T>* temp; //
-		stack<const BinTreeNode<T>* > s; //
-		s.push(curr); //
-		while (!s.empty()) //
+		const BinTreeNode<T>* temp; // Временный указатель на узел
+		stack<const BinTreeNode<T>* > s; // Стек для хранения узлов
+		s.push(curr); // Добавление текущего узла в стек
+		while (!s.empty()) // Пока стек не пуст
 		{
-			temp = s.top(); //
-			s.pop(); //
-			vec.push_back(temp->data); //
-			if (temp->right) //
-				s.push(temp->right); //
-			if (temp->left) //
-				s.push(temp->left); //
+			temp = s.top(); // Получение верхнего узла из стека
+			s.pop(); // Удаление верхнего узла из стека
+			vec.push_back(temp->data); // Добавление данных текущего узла в вектор
+			if (temp->right) // Если существует правое поддерево
+				s.push(temp->right); // Добавление правого узла в стек
+			if (temp->left) // Если существует левое поддерево
+				s.push(temp->left); // Добавление левого узла в стек
 		}
 	}
 }
 
 /// <summary>
-/// 
+/// Выбор способа обхода дерева
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="choice - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="choice">Тип обхода (из перечисления PATHS)</param>
 template <typename T>
 void path(const BinTreeNode<T>* curr, PATHS choice)
 {
-	switch (choice) //
+	switch (choice) // Выбор способа обхода
 	{
-	case (PATHS)0: //
-		NLR<T>(curr); //
+	case (PATHS)0: // NLR
+		NLR<T>(curr); // Вызов прямого обхода
 		break;
-	case (PATHS)1: //
-		NRL<T>(curr); //
+	case (PATHS)1: // NRL
+		NRL<T>(curr); // Вызов обратного прямого обхода
 		break;
-	case (PATHS)2: //
-		LNR<T>(curr); //
+	case (PATHS)2: // LNR
+		LNR<T>(curr); // Вызов симметричного обхода
 		break;
-	case (PATHS)3: //
-		RNL<T>(curr); //
+	case (PATHS)3: // RNL
+		RNL<T>(curr); // Вызов обратного симметричного обхода
 		break;
-	case (PATHS)4: //
-		LRN<T>(curr); //
+	case (PATHS)4: // LRN
+		LRN<T>(curr); // Вызов обратного обхода
 		break;
-	case (PATHS)5: //
-		RLN<T>(curr); //
+	case (PATHS)5: // RLN
+		RLN<T>(curr); // Вызов обратного обхода (RLN)
 		break;
-	case (PATHS)6: //
-		iterPath(curr); //
+	case (PATHS)6: // iter
+		iterPath(curr); // Вызов итеративного обхода
 		break;
 	}
 }
 
+
 /// <summary>
-/// 
+/// Выбор способа обхода дерева с сохранением данных в вектор
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="choice - "></param>
-/// <param name="vec - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="choice">Тип обхода (из перечисления PATHS)</param>
+/// <param name="vec">Вектор для хранения данных</param>
 template <typename T>
 void path(const BinTreeNode<T>* curr, PATHS choice, vector<T>& vec)
 {
-	switch (choice) //
+	switch (choice) // Выбор способа обхода
 	{
-	case (PATHS)0: //
-		NLR<T>(curr, vec); //
+	case (PATHS)0: // NLR
+		NLR<T>(curr, vec); // Вызов прямого обхода с сохранением в вектор
 		break;
-	case (PATHS)1: //
-		NRL<T>(curr, vec); //
+	case (PATHS)1: // NRL
+		NRL<T>(curr, vec); // Вызов обратного прямого обхода с сохранением в вектор
 		break;
-	case (PATHS)2: //
-		LNR<T>(curr, vec); //
+	case (PATHS)2: // LNR
+		LNR<T>(curr, vec); // Вызов симметричного обхода с сохранением в вектор
 		break;
-	case (PATHS)3: //
-		RNL<T>(curr, vec); //
+	case (PATHS)3: // RNL
+		RNL<T>(curr, vec); // Вызов обратного симметричного обхода с сохранением в вектор
 		break;
-	case (PATHS)4: //
-		LRN<T>(curr, vec); //
+	case (PATHS)4: // LRN
+		LRN<T>(curr, vec); // Вызов обратного обхода с сохранением в вектор
 		break;
-	case (PATHS)5: //
-		RLN<T>(curr, vec); //
+	case (PATHS)5: // RLN
+		RLN<T>(curr, vec); // Вызов обратного обхода (RLN) с сохранением в вектор
 		break;
-	case (PATHS)6: //
-		iterPath(curr, vec); //
+	case (PATHS)6: // iter
+		iterPath(curr, vec); // Вызов итеративного обхода с сохранением в вектор
 		break;
 	}
 }
 
 /// <summary>
-/// 
+/// Вставка нового узла в дерево
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="data - "></param>
-/// <param name="tree -"></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="data">Данные для вставки</param>
+/// <param name="tree">Указатель на корень дерева</param>
 template <typename T>
 void insert(T data, BinTreeNode<T>* tree)
 {
-	if (tree == nullptr) //
+	if (tree == nullptr) // Если дерево пустое
 	{
-		tree = new BinTreeNode<T>(data); //
-		return; //
+		tree = new BinTreeNode<T>(data); // Создание нового узла с данными
+		return; // Завершение функции
 	}
-	if (tree->left == nullptr) //
+	if (tree->left == nullptr) // Если левый дочерний узел отсутствует
 	{
-		tree->left = new BinTreeNode<T>(data); //
-		return; //
+		tree->left = new BinTreeNode<T>(data); // Создание левого узла
+		return; // Завершение функции
 	}
-	else //
+	else // Если левый узел занят
 	{
-		tree->right = new BinTreeNode<T>(data); //
-		return; //
+		tree->right = new BinTreeNode<T>(data); // Создание правого узла
+		return; // Завершение функции
 	}
 }
 
 /// <summary>
-/// 
+/// Вставка нового узла в бинарное дерево поиска
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="data - "></param>
-/// <param name="curr - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="data">Данные для вставки</param>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <returns>Указатель на корень поддерева</returns>
 template <typename T>
 BinTreeNode<T>* insertintree(T data, BinTreeNode<T>* curr)
 {
-	if (curr == nullptr) //
+	if (curr == nullptr) // Если текущий узел пустой
 	{
-		return new BinTreeNode<T>(data); //
+		return new BinTreeNode<T>(data); // Создание нового узла
 	}
-	if (data < curr->data) //
+	if (data < curr->data) // Если данные меньше текущего узла
 	{
-		curr->left = insertintree<T>(data, curr->left); //
+		curr->left = insertintree<T>(data, curr->left); // Рекурсивная вставка в левое поддерево
 	}
-	if (data > curr->data) //
+	if (data > curr->data) // Если данные больше текущего узла
 	{
-		curr->right = insertintree<T>(data, curr->right); //
+		curr->right = insertintree<T>(data, curr->right); // Рекурсивная вставка в правое поддерево
 	}
-	return curr; //
+	return curr; // Возврат указателя на текущий узел
 }
 
 /// <summary>
-/// 
+/// Создание бинарного дерева поиска из вектора
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="vec - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="vec">Вектор с данными</param>
+/// <returns>Указатель на корень созданного дерева</returns>
 template <typename T>
 BinTreeNode<T>* treefromvector(vector<T>& vec)
 {
-	BinTreeNode<T>* curr = nullptr; //
-	for (T data : vec) //
+	BinTreeNode<T>* curr = nullptr; // Инициализация пустого дерева
+	for (T data : vec) // Для каждого элемента вектора
 	{
-		curr = insertintree(data, curr); //
+		curr = insertintree(data, curr); // Вставка данных в дерево
 	}
-	return curr; //
+	return curr; // Возврат указателя на корень дерева
 }
 
+
 /// <summary>
-/// 
+/// Удаление дерева и освобождение памяти
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
 template <typename T>
 void deletetree(BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		deletetree(curr->left); //
-		deletetree(curr->right); //
-		delete curr; //
+		deletetree(curr->left); // Рекурсивное удаление левого поддерева
+		deletetree(curr->right); // Рекурсивное удаление правого поддерева
+		delete curr; // Освобождение памяти текущего узла
 	}
 }
 
 /// <summary>
-/// 
+/// Получение данных текущего узла
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <returns>Данные узла</returns>
 template <typename T>
 T in(BinTreeNode<T>* curr)
 {
-	if (curr) //
+	if (curr) // Проверка, существует ли текущий узел
 	{
-		return curr->data; //
+		return curr->data; // Возврат данных узла
 	}
-	throw 1; //
+	throw 1; // Выброс исключения, если узел пустой
 }
 
 /// <summary>
-/// 
+/// Подсчет количества узлов в дереве
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <returns>Количество узлов</returns>
 template <typename T>
 size_t count(BinTreeNode<T>* curr)
 {
-	if (curr == nullptr) //
+	if (curr == nullptr) // Если узел пустой
 	{
-		return 0; //
+		return 0; // Возврат 0
 	}
-	return 1 + count<T>(curr->left) + count<T>(curr->right); //
+	return 1 + count<T>(curr->left) + count<T>(curr->right); // Подсчет узлов в текущем узле и поддеревьях
 }
 
 /// <summary>
-/// 
+/// Вычисление глубины дерева
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <returns>Глубина дерева</returns>
 template <typename T>
 int depth(BinTreeNode<T>* curr)
 {
-	if (curr == nullptr) //
+	if (curr == nullptr) // Если узел пустой
 	{
-		return -1; //
+		return -1; // Возврат -1 (пустое дерево)
 	}
-	int left = depth<T>(curr->left); //
-	int right = depth<T>(curr->right); //
-	return max(left, right) + 1; //
+	int left = depth<T>(curr->left); // Вычисление глубины левого поддерева
+	int right = depth<T>(curr->right); // Вычисление глубины правого поддерева
+	return max(left, right) + 1; // Возврат максимальной глубины + 1
 }
 
 /// <summary>
-/// 
+/// Поиск узла с заданными данными
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="data - "></param>
-/// <param name="curr - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="data">Искомые данные</param>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <returns>Данные найденного узла</returns>
 template <typename T>
 T find(T data, BinTreeNode<T>* curr)
 {
-	if (curr == nullptr) //
+	if (curr == nullptr) // Если узел пустой
 	{
-		throw 1; //
+		throw 1; // Выброс исключения
 	}
-	if (data == curr->data) //
+	if (data == curr->data) // Если данные найдены
 	{
-		return curr->data; //
+		return curr->data; // Возврат данных узла
 	}
-	if (data < curr->data)
+	if (data < curr->data) // Если данные меньше текущего узла
 	{
-		return find<T>(data, curr->left); //
+		return find<T>(data, curr->left); // Рекурсивный поиск в левом поддереве
 	}
-	if (data > curr->data)
+	if (data > curr->data) // Если данные больше текущего узла
 	{
-		return find<T>(data, curr->right); //
+		return find<T>(data, curr->right); // Рекурсивный поиск в правом поддереве
 	}
 }
 
 /// <summary>
-/// 
+/// Поиск узла с минимальным значением данных
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <returns>Указатель на узел с минимальным значением</returns>
 template <typename T>
 BinTreeNode<T>* minDataNode(BinTreeNode<T>* curr)
 {
-	BinTreeNode<T>* temp = curr; //
-	while (temp && temp->left != nullptr) //
+	BinTreeNode<T>* temp = curr; // Временный указатель на текущий узел
+	while (temp && temp->left != nullptr) // Пока существует левый дочерний узел
 	{
-		temp = temp->left; //
+		temp = temp->left; // Переход к левому узлу
 	}
-	return temp; //
+	return temp; // Возврат указателя на узел с минимальным значением
 }
 
 /// <summary>
-/// 
+/// Удаление узла с заданными данными
 /// </summary>
-/// <typeparam name="T - "></typeparam>
-/// <param name="curr - "></param>
-/// <param name="data - "></param>
-/// <returns>
-/// 
-/// </returns>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <param name="data">Данные для удаления</param>
+/// <returns>Указатель на корень поддерева после удаления</returns>
 template <typename T>
 BinTreeNode<T>* removeNode(BinTreeNode<T>* curr, T data)
 {
-	if (curr == nullptr) //
+	if (curr == nullptr) // Если узел пустой
 	{
-		return curr; //
+		return curr; // Возврат nullptr
 	}
-	if (data < curr->data) //
+	if (data < curr->data) // Если данные меньше текущего узла
 	{
-		curr->left = removeNode<T>(curr->left, data); //
+		curr->left = removeNode<T>(curr->left, data); // Рекурсивное удаление в левом поддереве
 	}
-	else if (data > curr->data) //
+	else if (data > curr->data) // Если данные больше текущего узла
 	{
-		curr->right = removeNode<T>(curr->right, data); //
+		curr->right = removeNode<T>(curr->right, data); // Рекурсивное удаление в правом поддереве
 	}
-	else //
+	else // Если найден узел для удаления
 	{
-		//
-		BinTreeNode<T>* temp; //
-		if (curr->left == nullptr) //
+		BinTreeNode<T>* temp; // Временный указатель для хранения узла
+		if (curr->left == nullptr) // Если нет левого поддерева
 		{
-			temp = curr->right; //
-			delete(curr); //
-			return temp; //
+			temp = curr->right; // Сохранение правого поддерева
+			delete(curr); // Удаление текущего узла
+			return temp; // Возврат правого поддерева
 		}
-		else if (curr->right == nullptr) //
+		else if (curr->right == nullptr) // Если нет правого поддерева
 		{
-			temp = curr->left; //
-			delete(curr); //
-			return temp; //
+			temp = curr->left; // Сохранение левого поддерева
+			delete(curr); // Удаление текущего узла
+			return temp; // Возврат левого поддерева
 		}
-		//
-		temp = minDataNode<T>(curr->right); //
-		curr->data = temp->data; //
-		curr->right = removeNode<T>(curr->right, temp->data); //
+		// Если есть оба поддерева
+		temp = minDataNode<T>(curr->right); // Поиск минимального узла в правом поддереве
+		curr->data = temp->data; // Замена данных текущего узла
+		curr->right = removeNode<T>(curr->right, temp->data); // Удаление минимального узла из правого поддерева
 	}
-	return curr; //
+	return curr; // Возврат указателя на текущий узел
 }
 
 /// <summary>
-/// 
+/// Тестовая функция для проверки работы дерева
 /// </summary>
 void test();
