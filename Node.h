@@ -461,7 +461,7 @@ void deletetree(BinTreeNode<T>* curr)
 /// <param name="curr">Указатель на текущий узел</param>
 /// <returns>Данные узла</returns>
 template <typename T>
-T in(BinTreeNode<T>* curr)
+T in(const BinTreeNode<T>* curr)
 {
 	if (curr) // Проверка, существует ли текущий узел
 	{
