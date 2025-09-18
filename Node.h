@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <functional>
 #include <stack>
 #include <vector>
 
@@ -592,6 +593,23 @@ BinTreeNode<T>* removeNode(BinTreeNode<T>* curr, T data)
 		curr->right = removeNode<T>(curr->right, temp->data); // Удаление минимального узла из правого поддерева
 	}
 	return curr; // Возврат указателя на текущий узел
+}
+
+/// <summary>
+/// Функция применения функции к каждому узлу дерева
+/// </summary>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="func">Функция для применения к узлу</param>
+/// <param name="curr">Указатель на текущий узел</param>
+template <typename T>
+void NodeFunc(function<void(BinTreeNode<T>*)> func, BinTreeNode<T>* curr)
+{
+	if (curr) // если узел не пустой
+	{
+		func(curr); // примененяем функцию к текущему узлу
+		NodeFunc(func, curr->left); // вызов функции к левому поддереву
+		NodeFunc(func, curr->right); // вызов функции к правому поддереву
+	}
 }
 
 /// <summary>

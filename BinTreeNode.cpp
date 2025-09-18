@@ -3,6 +3,14 @@
 
 using namespace std;
 
+void funcadd(BinTreeNode<int>* curr)
+{
+    if (curr)
+    {
+        curr->data = curr->data + 1;
+    }
+}
+
 int main()
 {
     BinTreeNode<int>* root = new BinTreeNode<int>(1);
@@ -19,6 +27,10 @@ int main()
     insert(7, root->right);
     path(root, nlr);
     cout << endl;
+    NodeFunc<int>(funcadd, root);
+    path(root, nlr);
+    cout << endl;
+
     vector<int> vec;
     path(root, iter, vec);
     for (size_t i = 0; i < vec.size(); i++)
