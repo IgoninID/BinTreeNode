@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	BinTreeNode()
 	{
-		data = nullptr; // Инициализация данных значением nullptr
+		data = NULL; // Инициализация данных значением nullptr
 		left = nullptr; // Инициализация левого дочернего узла значением nullptr
 		right = nullptr; // Инициализация правого дочернего узла значением nullptr
 	}
@@ -610,6 +610,26 @@ void NodeFunc(function<void(BinTreeNode<T>*)> func, BinTreeNode<T>* curr)
 		NodeFunc(func, curr->left); // вызов функции к левому поддереву
 		NodeFunc(func, curr->right); // вызов функции к правому поддереву
 	}
+}
+
+/// <summary>
+/// Функция копирования дерева из дерева
+/// </summary>
+/// <typeparam name="T">Тип данных узла</typeparam>
+/// <param name="curr">Указатель на текущий узел</param>
+/// <returns>Указатель на новое дерево</returns>
+template <typename T>
+BinTreeNode<T>* copyNodes(BinTreeNode<T>* curr)
+{
+	if (curr)
+	{
+		BinTreeNode<T>* temp = new BinTreeNode<T>();
+		temp->data = curr->data;
+		temp->left = copyNodes(curr->left);
+		temp->right = copyNodes(curr->right);
+		return temp;
+	}
+	return nullptr;
 }
 
 /// <summary>

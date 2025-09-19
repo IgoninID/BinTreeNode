@@ -102,8 +102,12 @@ void test()
 	assert(t1 == vect8);
 	t1.clear();
 
+	BinTreeNode<int>* ctree = copyNodes(tree2); // проверка копирования дерева
+	path(ctree, lnr, t1);
+	assert(t1 == vect8);
+	t1.clear();
 
-
+	deletetree(ctree);
 	deletetree(tree2);
 
 	BinTreeNode<int>* tree3 = new BinTreeNode<int>(1);
