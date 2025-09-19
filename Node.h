@@ -468,7 +468,7 @@ T in(const BinTreeNode<T>* curr)
 	{
 		return curr->data; // Возврат данных узла
 	}
-	throw 1; // Выброс исключения, если узел пустой
+	throw out_of_range("Пустое дерево"); // Выброс исключения, если узел пустой
 }
 
 /// <summary>
@@ -517,7 +517,7 @@ T find(T data, BinTreeNode<T>* curr)
 {
 	if (curr == nullptr) // Если узел пустой
 	{
-		throw 1; // Выброс исключения
+		throw out_of_range("Нет такого элемента"); // Выброс исключения
 	}
 	if (data == curr->data) // Если данные найдены
 	{
@@ -613,6 +613,6 @@ void NodeFunc(function<void(BinTreeNode<T>*)> func, BinTreeNode<T>* curr)
 }
 
 /// <summary>
-/// Тестовая функция для проверки работы дерева
+/// Тестовая функция для проверки работы узла дерева
 /// </summary>
 void test();

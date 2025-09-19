@@ -13,6 +13,7 @@ void funcadd(BinTreeNode<int>* curr)
 
 int main()
 {
+    test();
     BinTreeNode<int>* root = new BinTreeNode<int>(1);
     /*
     *                   1
