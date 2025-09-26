@@ -372,6 +372,7 @@ void path(const BinTreeNode<T>* curr, PATHS choice, vector<T>& vec)
 
 /// <summary>
 /// Вставка нового узла в дерево
+/// Сложность O(1)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="data">Данные для вставки</param>
@@ -398,6 +399,7 @@ void insert(T data, BinTreeNode<T>* tree)
 
 /// <summary>
 /// Вставка нового узла в бинарное дерево поиска
+/// Сложность O(logn) - сбалансированное, O(n) - несбалансрованное
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="data">Данные для вставки</param>
@@ -423,6 +425,7 @@ BinTreeNode<T>* insertintree(T data, BinTreeNode<T>* curr)
 
 /// <summary>
 /// Создание бинарного дерева поиска из вектора
+/// Сложность O(n)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="vec">Вектор с данными</param>
@@ -441,6 +444,7 @@ BinTreeNode<T>* treefromvector(vector<T>& vec)
 
 /// <summary>
 /// Удаление дерева и освобождение памяти
+/// Сложность O(n)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="curr">Указатель на текущий узел</param>
@@ -457,6 +461,7 @@ void deletetree(BinTreeNode<T>* curr)
 
 /// <summary>
 /// Получение данных текущего узла
+/// Сложность O(1)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="curr">Указатель на текущий узел</param>
@@ -473,6 +478,7 @@ T in(const BinTreeNode<T>* curr)
 
 /// <summary>
 /// Подсчет количества узлов в дереве
+/// Сложность O(n)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="curr">Указатель на текущий узел</param>
@@ -489,6 +495,7 @@ size_t count(BinTreeNode<T>* curr)
 
 /// <summary>
 /// Вычисление глубины дерева
+/// Сложность O(n)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="curr">Указатель на текущий узел</param>
@@ -507,6 +514,7 @@ int depth(BinTreeNode<T>* curr)
 
 /// <summary>
 /// Поиск узла с заданными данными
+/// Сложность O(logn) - сбалансированное, O(n) - несбалансрованное
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="data">Искомые данные</param>
@@ -552,6 +560,7 @@ BinTreeNode<T>* minDataNode(BinTreeNode<T>* curr)
 
 /// <summary>
 /// Удаление узла с заданными данными
+/// Сложность O(logn) - сбалансированное, O(n) - несбалансрованное
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="curr">Указатель на текущий узел</param>
@@ -597,6 +606,7 @@ BinTreeNode<T>* removeNode(BinTreeNode<T>* curr, T data)
 
 /// <summary>
 /// Функция применения функции к каждому узлу дерева
+/// Сложность O(n)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="func">Функция для применения к узлу</param>
@@ -614,6 +624,7 @@ void NodeFunc(function<void(BinTreeNode<T>*)> func, BinTreeNode<T>* curr)
 
 /// <summary>
 /// Функция копирования дерева из дерева
+/// Сложность O(n)
 /// </summary>
 /// <typeparam name="T">Тип данных узла</typeparam>
 /// <param name="curr">Указатель на текущий узел</param>
