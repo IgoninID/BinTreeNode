@@ -6,7 +6,7 @@ using namespace std;
 /// <summary>
 /// “естова€ функци€ дл€ проверки работы узла дерева
 /// </summary>
-void test()
+void test_rand()
 {
 	// проверка конструктора с параметрами, функции insert
 	BinTreeNode<int>* tree1 = new BinTreeNode<int>(5);
@@ -130,4 +130,520 @@ void test()
 
 	}
 
+}
+
+/// <summary>
+/// “естова€ функци€ дл€ проверки работы узла дерева дл€ пустого дерева
+/// </summary>
+void test_void()
+{
+	BinTreeNode<int>* tree = nullptr;
+	vector<int> v;
+	vector<int> t;
+
+	// обходы
+	path(tree, nlr, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, nrl, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, lnr, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, rnl, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, lrn, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, rln, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, iter, v);
+	assert(v == t);
+	v.clear();
+
+	// получение данных
+	try
+	{
+		int i = in(tree);
+		assert(false);
+	}
+	catch (out_of_range)
+	{
+
+	}
+
+	//количество и глубина
+	assert(count(tree) == 0);
+	assert(depth(tree) == -1);
+
+	//поиск
+	try
+	{
+		int i = find(5, tree);
+		assert(false);
+	}
+	catch (out_of_range)
+	{
+
+	}
+
+	// удаление
+	removeNode(tree, 5);
+	path(tree, nlr, v);
+	assert(v == t);
+
+	// удаление дерева
+	deletetree(tree);
+	path(tree, nlr, v);
+	assert(v == t);
+
+	// вставка
+	tree = insertintree(10, tree);
+	path(tree, nlr, v);
+	assert(v.size() == 1);
+	assert(v[0] == 10);
+	v.clear();
+	deletetree(tree);
+}
+
+/// <summary>
+/// “естова€ функци€ дл€ проверки работы узла дерева дл€ дерева из одного элемента
+/// </summary>
+void test_one()
+{
+	BinTreeNode<int>* tree = new BinTreeNode<int>(10);
+	vector<int> v;
+	vector<int> t{ 10 };
+	vector<int> t2;
+
+	// обходы
+	path(tree, nlr, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, nrl, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, lnr, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, rnl, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, lrn, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, rln, v);
+	assert(v == t);
+	v.clear();
+
+	path(tree, iter, v);
+	assert(v == t);
+	v.clear();
+
+	//получение данных
+	int i = in(tree);
+	assert(i == 10);
+
+	//количество и глубина
+	assert(count(tree) == 1);
+	assert(depth(tree) == 0);
+
+	//поиск
+	assert(find(10, tree) == 10);
+	//поиск не существующего
+	try
+	{
+		int i = find(5, tree);
+		assert(false);
+	}
+	catch (out_of_range)
+	{
+
+	}
+
+
+	// удаление не существующего
+	removeNode(tree, 5);
+	path(tree, nlr, v);
+	assert(v == t);
+	v.clear();
+	// удаление
+	removeNode(tree, 10);
+	tree = nullptr;
+	path(tree, nlr, v);
+	assert(v == t2);
+	v.clear();
+
+	// вставка
+	tree = insertintree(10, tree);
+
+	insertintree(15, tree);
+	path(tree, nlr, v);
+	assert(v.size() == 2);
+	assert(v[0] == 10);
+	assert(v[1] == 15);
+	v.clear();
+	removeNode(tree, 15);
+
+	//удаление дерева
+	deletetree(tree);
+	tree = nullptr;
+	path(tree, nlr, v);
+	assert(v == t2);
+
+}
+
+/// <summary>
+/// “естова€ функци€ дл€ проверки работы узла дерева дл€ совершенного дерева
+/// </summary>
+void test_perf()
+{
+	BinTreeNode<int>* tree = new BinTreeNode<int>(10);
+	vector<int> v;
+	vector<int> t1{ 10, 6, 3, 8, 20, 15, 25 };
+	vector<int> t2{ 10, 20, 25, 15, 6, 8, 3 };
+	vector<int> t3{ 3, 6, 8, 10, 15, 20, 25 };
+	vector<int> t4{ 25, 20, 15, 10, 8, 6, 3 };
+	vector<int> t5{ 3, 8, 6, 15, 25, 20, 10 };
+	vector<int> t6{ 25, 15, 20, 8, 3, 6, 10 };
+	/*
+	*                   10
+	*               6       20
+	*             3   8   15   25
+	*/
+	insert(6, tree);
+	insert(20, tree);
+	insert(3, tree->left);
+	insert(8, tree->left);
+	insert(15, tree->right);
+	insert(25, tree->right);
+
+	// обходы
+	path(tree, nlr, v);
+	assert(v == t1);
+	v.clear();
+
+	path(tree, nrl, v);
+	assert(v == t2);
+	v.clear();
+
+	path(tree, lnr, v);
+	assert(v == t3);
+	v.clear();
+
+	path(tree, rnl, v);
+	assert(v == t4);
+	v.clear();
+
+	path(tree, lrn, v);
+	assert(v == t5);
+	v.clear();
+
+	path(tree, rln, v);
+	assert(v == t6);
+	v.clear();
+
+	path(tree, iter, v);
+	assert(v == t1);
+	v.clear();
+
+	//получение данных
+	int i = in(tree);
+	assert(i == 10);
+
+	//количество и глубина
+	assert(count(tree) == 7);
+	assert(depth(tree) == 2);
+
+	//поиск
+	assert(find(8, tree) == 8);
+	//поиск не существующего
+	try
+	{
+		int i = find(100, tree);
+		assert(false);
+	}
+	catch (out_of_range)
+	{
+
+	}
+
+
+	// удаление не существующего
+	removeNode(tree, 100);
+	path(tree, nlr, v);
+	assert(v == t1);
+	v.clear();
+
+	// удаление без потомков
+	removeNode(tree, 25);
+	path(tree, nlr, v);
+	vector<int> t7{ 10, 6, 3, 8, 20, 15 };
+	assert(v == t7);
+	v.clear();
+
+	// удаление с одним потомком
+	removeNode(tree, 20);
+	path(tree, nlr, v);
+	vector<int> t8{ 10, 6, 3, 8, 15 };
+	assert(v == t8);
+	v.clear();
+
+	// удаление с двум€ потомками
+	removeNode(tree, 6);
+	path(tree, nlr, v);
+	vector<int> t9{ 10, 8, 3, 15 };
+	assert(v == t9);
+	v.clear();
+
+	// вставка
+	insertintree(18, tree);
+	path(tree, nlr, v);
+	vector<int> t10{ 10, 8, 3, 15, 18 };
+	assert(v == t10);
+	v.clear();
+
+	//удаление дерева
+	deletetree(tree);
+	tree = nullptr;
+	path(tree, nlr, v);
+	vector<int> t11;
+	assert(v == t11);
+}
+
+/// <summary>
+/// “естова€ функци€ дл€ проверки работы узла дерева дл€ строгого дерева
+/// </summary>
+void test_comp()
+{
+	BinTreeNode<int>* tree = new BinTreeNode<int>(10);
+	vector<int> v;
+	vector<int> t1{ 10, 6, 3, 8, 20 };
+	vector<int> t2{ 10, 20, 6, 8, 3 };
+	vector<int> t3{ 3, 6, 8, 10, 20 };
+	vector<int> t4{ 20, 10, 8, 6, 3 };
+	vector<int> t5{ 3, 8, 6, 20, 10 };
+	vector<int> t6{ 20, 8, 3, 6, 10 };
+	/*
+	*                   10
+	*               6       20
+	*             3   8
+	*/
+	insert(6, tree);
+	insert(20, tree);
+	insert(3, tree->left);
+	insert(8, tree->left);
+
+	// обходы
+	path(tree, nlr, v);
+	assert(v == t1);
+	v.clear();
+
+	path(tree, nrl, v);
+	assert(v == t2);
+	v.clear();
+
+	path(tree, lnr, v);
+	assert(v == t3);
+	v.clear();
+
+	path(tree, rnl, v);
+	assert(v == t4);
+	v.clear();
+
+	path(tree, lrn, v);
+	assert(v == t5);
+	v.clear();
+
+	path(tree, rln, v);
+	assert(v == t6);
+	v.clear();
+
+	path(tree, iter, v);
+	assert(v == t1);
+	v.clear();
+
+	//получение данных
+	int i = in(tree);
+	assert(i == 10);
+
+	//количество и глубина
+	assert(count(tree) == 5);
+	assert(depth(tree) == 2);
+
+	//поиск
+	assert(find(8, tree) == 8);
+	//поиск не существующего
+	try
+	{
+		int i = find(100, tree);
+		assert(false);
+	}
+	catch (out_of_range)
+	{
+
+	}
+
+
+	// удаление не существующего
+	removeNode(tree, 100);
+	path(tree, nlr, v);
+	assert(v == t1);
+	v.clear();
+
+	// удаление без потомков
+	removeNode(tree, 20);
+	path(tree, nlr, v);
+	vector<int> t7{ 10, 6, 3, 8};
+	assert(v == t7);
+	v.clear();
+
+	// удаление с двум€ потомками
+	removeNode(tree, 6);
+	path(tree, nlr, v);
+	vector<int> t9{ 10, 8, 3 };
+	assert(v == t9);
+	v.clear();
+
+	// удаление с одним потомком
+	removeNode(tree, 8);
+	path(tree, nlr, v);
+	vector<int> t8{ 10, 3 };
+	assert(v == t8);
+	v.clear();
+
+	// вставка
+	insertintree(18, tree);
+	path(tree, nlr, v);
+	vector<int> t10{ 10, 3, 18 };
+	assert(v == t10);
+	v.clear();
+
+	//удаление дерева
+	deletetree(tree);
+	tree = nullptr;
+	path(tree, nlr, v);
+	vector<int> t11;
+	assert(v == t11);
+}
+
+/// <summary>
+/// “естова€ функци€ дл€ проверки работы узла дерева дл€ вырожденного дерева
+/// </summary>
+void test_deg()
+{
+	BinTreeNode<int>* tree = new BinTreeNode<int>(10);
+	vector<int> v;
+	vector<int> t1{ 10, 6, 3 };
+	vector<int> t2{ 10, 6, 3 };
+	vector<int> t3{ 3, 6, 10 };
+	vector<int> t4{ 10, 6, 3 };
+	vector<int> t5{ 3, 6, 10 };
+	vector<int> t6{ 3, 6, 10 };
+	/*
+	*                   10
+	*               6       
+	*             3
+	*/
+	insert(6, tree);
+	insert(3, tree->left);
+	
+	// обходы
+	path(tree, nlr, v);
+	assert(v == t1);
+	v.clear();
+
+	path(tree, nrl, v);
+	assert(v == t2);
+	v.clear();
+
+	path(tree, lnr, v);
+	assert(v == t3);
+	v.clear();
+
+	path(tree, rnl, v);
+	assert(v == t4);
+	v.clear();
+
+	path(tree, lrn, v);
+	assert(v == t5);
+	v.clear();
+
+	path(tree, rln, v);
+	assert(v == t6);
+	v.clear();
+
+	path(tree, iter, v);
+	assert(v == t1);
+	v.clear();
+
+	//получение данных
+	int i = in(tree);
+	assert(i == 10);
+
+	//количество и глубина
+	assert(count(tree) == 3);
+	assert(depth(tree) == 2);
+
+	//поиск
+	assert(find(3, tree) == 3);
+	//поиск не существующего
+	try
+	{
+		int i = find(100, tree);
+		assert(false);
+	}
+	catch (out_of_range)
+	{
+
+	}
+
+
+	// удаление не существующего
+	removeNode(tree, 100);
+	path(tree, nlr, v);
+	assert(v == t1);
+	v.clear();
+
+	// удаление с одним потомком
+	removeNode(tree, 6);
+	path(tree, nlr, v);
+	vector<int> t8{ 10, 3 };
+	assert(v == t8);
+	v.clear();
+
+	// удаление без потомков
+	removeNode(tree, 3);
+	path(tree, nlr, v);
+	vector<int> t7{ 10 };
+	assert(v == t7);
+	v.clear();
+
+	// вставка
+	insertintree(1, tree);
+	path(tree, nlr, v);
+	vector<int> t10{ 10, 1 };
+	assert(v == t10);
+	v.clear();
+
+	//удаление дерева
+	deletetree(tree);
+	tree = nullptr;
+	path(tree, nlr, v);
+	vector<int> t11;
+	assert(v == t11);
 }
